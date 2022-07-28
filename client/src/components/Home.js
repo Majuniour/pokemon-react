@@ -18,12 +18,9 @@ const Home = () => {
     }
 
     const updateInput = async (input) => {
-        console.log("search",input)
         const filtered = pokemonListDefault.filter(pokemon => {
          return pokemon.name.toLowerCase().includes(input.toLowerCase())
         })
-
-        console.log("filtered", filtered)
         setPokemonList(filtered);
         setInput(input);
      }
@@ -37,7 +34,7 @@ const Home = () => {
 
     const List = pokemonList.map((pokemon, index) => {
         return (
-            <div key={index} className="list" onClick={()=>navigate("/Detail",{ state: { item: pokemon}})}>
+            <div key={index} className="list" data-testid="pokemons" onClick={()=>navigate("/Detail",{ state: { item: pokemon}})} >
                
             {index % 2 === 0 ? <li className={`list-group-item list-group-item`}>{index + 1}. {pokemon.name}</li> : <li className={`list-group-item list-group-item-${colors[random]}`}>{index + 1}. {pokemon.name}</li> }
            
