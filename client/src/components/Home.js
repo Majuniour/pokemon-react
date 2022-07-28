@@ -6,13 +6,27 @@ import './Home.scss'
 const Home = () => {
     const navigate = useNavigate();
     const [pokemonList, setPokemonList] = useState([]);
+    const [pokemonListDefault, setPokemonListDefault] = useState([]);
+    const [input, setInput] = useState([]);
 
     const fetchPokemonList = async () => {
         const res = await apiClient.getPokemonList();
         if(!res) return
         setPokemonList(res)
+        setPokemonListDefault(res)
       
     }
+
+    const updateInput = async (input) => {
+        console.log("search",input)
+        const filtered = pokemonListDefault.filter(pokemon => {
+         return pokemon.name.toLowerCase().includes(input.toLowerCase())
+        })
+
+        console.log("filtered", filtered)
+        setPokemonList(filtered);
+        setInput(input);
+     }
 
     useEffect(() => {
         fetchPokemonList();
@@ -35,11 +49,21 @@ const Home = () => {
     <div className="container">
         <div className="h-100 p-5 text-bg-dark rounded-3">
         <div className="input-group mb-3">
-        <span className="input-group-text" id="basic-addon1">Search by Name</span>
-        {/* <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com"> */}
         </div>
+           <div>
+           <form data-testid="search" className='mr-auto w-50 form-inline'>
+                <input placeholder='Search Pokemon' type="text" className='w-10 form control'
+                 key="random1"
+                 value={input}
+                 onChange={(e) => updateInput(e.target.value)}
+                />
+            </form>
+            <br/>
             <h2>List of Pokemon</h2>
+           </div>
+
         </div>
+
        <ul className="list-group">
        {List}
        </ul>
